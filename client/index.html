@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Simple Map</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=ul>, initial-scale=1.0" />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <script src="./client.js"></script>
+    <script src="./areas.js"></script>
+    <script src="./locations.js"></script>
+    <script src="./filter.js"></script>
+    <script src="./utils.js"></script>
+        <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+        <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmZTHw7SHyNftDR9pYm10BzfadinEoPmA&callback=initMap&libraries=&v=weekly"
+        async>
+    </script>
+    <!-- <link rel="stylesheet" href="select-box/vanillaSelectBox.css">
+    <script src="select-box/vanillaSelectBox.js"></script> -->
+    <link rel="stylesheet" href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css">
+    <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+</head>
+
+<body>
+    <main>
+        <header>
+            <div id="logo">Locations+</div>
+            <ul id="usernav">
+                <li><a href="/register.html">Register</a></li>
+                <span>|</span>
+                <li><a href="/login.html">Login</a></li>
+            </ul>
+        </header>
+        <form id="filter">
+            <!-- <label for="offset">Offset</label><br>
+            <input type="text" name="offset" id="offset" /><br>
+            <label for="limit">Limit</label><br>
+            <input type="text" name="limit" id="limit" /><br>
+            <input type="submit" value="Submit" id="submitBtn" /> -->
+
+            <!-- <label for="search">Search locations</label><br> -->
+            <h1>Search Locations</h1>
+            <!-- <input type="text" placeholder="Type location name" name="search" id="search-field"><br> -->
+            <div id="autocomplete" class="autocomplete">
+                <input class="autocomplete-input"
+                  placeholder="Search for location's street address"
+                  aria-label="Search for location's street address"
+                  id="search-bar"
+                >
+                <ul class="autocomplete-results"></ul>
+            </div>
+            <label for="country">Choose country</label><br>
+            <select id="country" multiple>
+                <option value="All">All</option>
+            </select><br>
+            <label for="city">Choose city</label><br>
+            <select id="city" multiple>
+                <option value="All">All</option>
+            </select><br>
+            <div id="filter-btns">
+                <input type="button" value="Filter" id="filter-btn">
+                <input type="submit" value="Add Marker" id="add-marker-btn">
+            </div>
+        </form>
+
+        <hr>
+
+        <div id="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close-modal-btn">&times;</span>
+                    <h2>Add Area of Interest</h2>
+                </div>
+                <div class="modal-body">
+                    <div id="form-div">
+                        <form id="add-area-form">
+                            <!-- <p>Search by Area of interest</p> -->
+                            <label for="area-name">Enter Area Name</label><br>
+                            <input type="text" placeholder="Area Name" name="area-name" id="area-name"><br>
+                            <label for="sw-x">Coordinates for Southwest point</label><br>
+                            <input type="text" placeholder="X-coordinate" name="sw-x" id="sw-x"><br>
+                            <input type="text" placeholder="Y-coordinate" name="sw-y" id="sy-y"><br>
+                            <label for="ne-x">Coordinates for Northeast point</label><br>
+                            <input type="text" placeholder="X-coordinate" name="ne-x" id="ne-x"><br>
+                            <input type="text" placeholder="Y-coordinate" name="ne-y" id="ne-y"><br>
+                            <label for="centerMapCheck">Focus Map on this Area</label>
+                            <input type="checkbox" name="center-map-check" id="center-map-check"><br>
+                            <input type="submit" value="Add Area" id="add-area-btn"><br>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <h3>You can always remove the Area later</h3>
+                </div>
+            </div>
+        </div>
+
+        <div id="map"></div>
+
+        <hr>
+
+        <div id="locations">
+            <h3>Locations of Interest</h3>
+            <!-- <button id="location-modal-btn">Add Location of Interest</button> -->
+            <div id="location-container">
+                <p id="no-locations">No locations on the map!</p>
+                <!-- <div class="location">
+                    <p>Name: Area1</p>
+                    <p>Coordinates: (14.94191490, 99.51516210)</p>
+                    <p>Country: Bulgaria</p>
+                    <p>City: Sofiq</p>
+                    <p>Street Address: 76801 Sanford Vista</p>
+                    <button>Go To Location</button>
+                    <button>Hide</button>
+                    <button>Delete</button>
+                </div> -->
+            </div>
+        </div>
+
+        <hr>
+
+        <div id="areas">
+            <h3>Areas of Interest</h3>
+            <button id="area-modal-btn">Add Area of Interest</button>
+            <div id="area-container">
+                <p id="no-areas">No areas on the map!</p>
+                <!-- <div class="area">
+                    <p>Name: Area1</p>
+                    <p>SW: (14.94191490, 99.51516210)</p>
+                    <p>NE: (14.94191490, 99.51516210) </p>
+                    <button>Go To Area</button>
+                    <button>Hide</button>
+                    <button>Delete</button>
+                </div> -->
+            </div>
+        </div>
+        
+        <footer>
+            <p>Copyright © 2021 B. Valkov.  All rights reserved.</p>
+        </footer>
+    </main>
+</body>
+</html>
