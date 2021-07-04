@@ -74,7 +74,6 @@ app.get("/get-locations", async (req, res) => {
     //TO DO: it will be better approach to use SQL statements instead of ORM, Sequelize makes things slower;
     //Consider using MongoDB instead of relational database
 
-    //retrieve data from the database, ORM will transform it for us;
     let offset = req.query.offset ? Number(req.query.offset) : 0;
     let limit = req.query.limit ? Number(req.query.limit) : 1;
     console.log(`Limit: ${limit}`)
@@ -106,7 +105,6 @@ app.get("/get-locations", async (req, res) => {
 app.get("/get-location", async (req, res) => {
     console.log(req.query.search)
 
-    //retrieve data from the database, ORM will transform it for us;
     const result = await sequelize.query("SELECT * FROM locations WHERE street_address LIKE :search", {
         model: Location,
         mapToModel: true,
