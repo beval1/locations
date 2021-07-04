@@ -15,7 +15,7 @@ const port = 3002;
 // }));
 app.use(Express.json());
 
-const sequelize = new Sequelize('mysql://root:meuhas12emili@localhost:3306/geo_data') // mysql connection
+const sequelize = new Sequelize('mysql://root:?@localhost:3306/geo_data') // mysql connection
 
 //test connection
 try {
