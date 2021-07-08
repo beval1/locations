@@ -1,6 +1,6 @@
 console.log("client script loaded")
 
-const dataServer = "http://151.251.52.240:3002"
+const dataServer = "http://localhost:3002"
 let map;
 const mapStartingPosition = {
     lat: 42.000,

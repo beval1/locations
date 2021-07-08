@@ -15,7 +15,7 @@ const port = 3002;
 // }));
 app.use(Express.json());
 
-const sequelize = new Sequelize('mysql://root:?@localhost:3306/geo_data') // mysql connection
+const sequelize = new Sequelize('mysql://root:meuhas@localhost:3306/wordpress') // mysql connection
 
 //test connection
 try {
@@ -121,9 +121,26 @@ app.get("/get-location", async (req, res) => {
 })
 
 app.get("/get-countries", async (req, res) => {
-    const results = await sequelize.query("SELECT DISTINCT country FROM locations ORDER BY country ASC", {
+    let cities = [];
+
+    if (req.query.cities.includes('All') || req.query.cities == 0) {
+        const result = await sequelize.query("SELECT DISTINCT city AS city FROM locations ORDER BY city ASC", {
+            raw: true,
+            type: sequelize.QueryTypes.SELECT
+        });
+        result.forEach(r => {
+            cities.push(r.city)
+        })
+    } else {
+        cities = Array.from(req.query.cities.split(','))
+    }
+
+    const results = await sequelize.query("SELECT DISTINCT country AS country FROM locations WHERE city IN(:cities) ORDER BY country ASC", {
         raw: true,
-        type: sequelize.QueryTypes.SELECT
+        type: sequelize.QueryTypes.SELECT,
+        replacements: {
+            cities: cities,
+        },
     });
     res.json({
         data: results
@@ -131,9 +148,25 @@ app.get("/get-countries", async (req, res) => {
 });
 
 app.get("/get-cities", async (req, res) => {
-    const results = await sequelize.query("SELECT DISTINCT city FROM locations ORDER BY city ASC", {
+    console.log(req.query.countries);
+    let countries = []
+    if (req.query.countries.includes('All') || req.query.countries == 0) {
+        const result = await sequelize.query("SELECT DISTINCT country AS country FROM locations ORDER BY country ASC", {
+            raw: true,
+            type: sequelize.QueryTypes.SELECT
+        });
+        result.forEach(r => {
+            countries.push(r.country)
+        })
+    } else {
+        countries = Array.from(req.query.countries.split(','))
+    }
+    const results = await sequelize.query("SELECT DISTINCT city AS city FROM locations WHERE country IN(:countries) ORDER BY city ASC", {
         raw: true,
-        type: sequelize.QueryTypes.SELECT
+        type: sequelize.QueryTypes.SELECT,
+        replacements: {
+            countries: countries,
+        },
     });
     res.json({
         data: results
@@ -148,7 +181,7 @@ app.get("/get-addresses", async (req, res) => {
     let cities = [];
 
     if (req.query.countries.includes('All') || req.query.countries == 0) {
-        const result = await sequelize.query("SELECT DISTINCT country FROM locations ORDER BY city ASC", {
+        const result = await sequelize.query("SELECT DISTINCT country AS country FROM locations ORDER BY country ASC", {
             raw: true,
             type: sequelize.QueryTypes.SELECT
         });
@@ -159,7 +192,7 @@ app.get("/get-addresses", async (req, res) => {
         countries = Array.from(req.query.countries.split(','))
     }
     if (req.query.cities.includes('All') || req.query.cities == 0) {
-        const result = await sequelize.query("SELECT DISTINCT city FROM locations ORDER BY city ASC", {
+        const result = await sequelize.query("SELECT DISTINCT city AS city FROM locations ORDER BY city ASC", {
             raw: true,
             type: sequelize.QueryTypes.SELECT
         });
@@ -173,7 +206,7 @@ app.get("/get-addresses", async (req, res) => {
     console.log(countries)
     console.log(cities)
 
-    let sqlQuery = "SELECT DISTINCT street_address FROM locations WHERE country IN(:countries) AND city IN(:cities) ORDER BY street_address ASC"
+    let sqlQuery = "SELECT DISTINCT street_address AS street FROM locations WHERE country IN(:countries) AND city IN(:cities) ORDER BY street ASC"
     const results = await sequelize.query(sqlQuery, {
         raw: true,
         type: sequelize.QueryTypes.SELECT,
@@ -185,6 +218,7 @@ app.get("/get-addresses", async (req, res) => {
     res.json({
         data: results
     })
+    console.log(results)
 });
 
 app.post("/add-location", async (req, res) => {

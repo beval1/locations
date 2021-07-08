@@ -57,7 +57,6 @@ window.addEventListener("load", function () {
         let area = drawArea(coordinates, areaName)
         console.log(area)
         areasArr.push(area);
-        //let areaIndex = areasArr.length - 1;
 
         if (focusCheck){
             console.log(area.center);

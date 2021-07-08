@@ -10,6 +10,27 @@ window.addEventListener("load", function () {
     loadFilterCities();
     loadSearchBox();
 
+    countriesSelector.addEventListener('change', () => {
+        countriesChoosen = getMultipleSelectValues(countriesSelector);
+        toggleSelectors();
+        loadFilterCities();
+        toggleSelectors();
+        console.log('changed')
+    })
+
+    citiesSelector.addEventListener('change', () => {
+        citiesChoosen = getMultipleSelectValues(citiesSelector);
+        toggleSelectors();
+        loadFilterCountries();
+        toggleSelectors();
+        console.log('changed')
+    })
+
+    function toggleSelectors() {
+        countriesSelector.disabled ? countriesSelector.disabled = false : countriesSelector.disabled = true;
+        citiesSelector.disabled ? citiesSelector.disabled = false : citiesSelector.disabled = true;
+    }
+
     let filterBtn = this.document.getElementById('filter-btn').addEventListener('click', (e) => {
         countriesChoosen = getMultipleSelectValues(countriesSelector);
         citiesChoosen = getMultipleSelectValues(citiesSelector);
@@ -19,7 +40,12 @@ window.addEventListener("load", function () {
     })
 
     function loadFilterCountries() {
-        let url = `${dataServer}/get-countries`
+        countriesSelector.innerHTML = '';
+        let option = document.createElement('option')
+        option.append(document.createTextNode('All'))
+        option.value = 'All';
+        countriesSelector.appendChild(option)
+        let url = `${dataServer}/get-countries?cities=${citiesChoosen}`
         fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -27,7 +53,7 @@ window.addEventListener("load", function () {
                 console.log(`Countries found: ${data.length}`)
                 for (let index = 0; index < data.length; index++) {
                     const country = data[index].country;
-                    let option = document.createElement('option')
+                    option = document.createElement('option')
                     option.append(document.createTextNode(country))
                     option.value = country;
                     countriesSelector.appendChild(option)
@@ -36,8 +62,12 @@ window.addEventListener("load", function () {
     }
     
     function loadFilterCities() {
-        let url = `${dataServer}/get-cities`
-    
+        citiesSelector.innerHTML = '';
+        let option = document.createElement('option')
+        option.append(document.createTextNode('All'))
+        option.value = 'All';
+        citiesSelector.appendChild(option)
+        let url = `${dataServer}/get-cities?countries=${countriesChoosen}`
         fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -45,7 +75,7 @@ window.addEventListener("load", function () {
                 console.log(`Cities found: ${data.length}`)
                 for (let index = 0; index < data.length; index++) {
                     const city = data[index].city;
-                    let option = document.createElement('option')
+                    option = document.createElement('option')
                     option.append(document.createTextNode(city))
                     option.value = city;
                     citiesSelector.appendChild(option)
@@ -64,12 +94,13 @@ window.addEventListener("load", function () {
             .then(response => response.json())
             .then(data => {
                 data = data.data;
+                //console.log(data)
                 console.log(`Addresses Found: ${data.length}`)
                 for (let index = 0; index < data.length; index++) {
                     const element = data[index];
-                    addressesArr.push(element.street_address)
+                    addressesArr.push(element.street)
                 }
-                //console.log(addressesArr)
+                console.log(addressesArr)
             })
     
         const autocompleteInput = new Autocomplete('#autocomplete', {
