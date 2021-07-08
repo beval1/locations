@@ -3,57 +3,59 @@ let locationsArr = []
 window.addEventListener("load", function () {
     let noLocations = document.getElementById('no-locations');
 
-    let searchBtn = document.getElementById('add-marker-btn').addEventListener('click', (e) => {
-        //prevent page refresh
-        e.preventDefault();
+    // let searchBtn = document.getElementById('add-marker-btn').addEventListener('click', (e) => {
+    //     //prevent page refresh
+    //     e.preventDefault();
 
-        //formData = new FormData(filter);
-        //const search = formData.get('search-field');
-        const search = this.document.getElementById('search-bar').value
-        // console.log(search)
+    //     //formData = new FormData(filter);
+    //     //const search = formData.get('search-field');
+    //     const search = this.document.getElementById('search-bar').value
+    //     // console.log(search)
 
-        let url = `${dataServer}/get-location?search=${search}`
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                //get only first result
-                //if they are more than one results that might be a problem
-                let location = data.data[0];
-                console.log(location)
-                let locationPosition = {
-                    lat: Number(location.latitude),
-                    lng: Number(location.longitude)
-                }
-                console.log(locationPosition)
-                let placeTitle = location.placeName;
+    //     let url = `${dataServer}/get-location?search=${search}`
+    //     fetch(url)
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             //get only first result
+    //             //if they are more than one results that might be a problem
+    //             let location = data.data[0];
+    //             console.log(location)
+    //             let locationPosition = {
+    //                 lat: Number(location.latitude),
+    //                 lng: Number(location.longitude)
+    //             }
+    //             console.log(locationPosition)
+    //             let placeTitle = location.placeName;
 
-                location = {
-                    coordinates: locationPosition,
-                    country: location.country,
-                    city: location.city,
-                    streetAddress: location.street_address,
-                    name: placeTitle
-                };
+    //             location = {
+    //                 coordinates: locationPosition,
+    //                 country: location.country,
+    //                 city: location.city,
+    //                 streetAddress: location.street_address,
+    //                 name: placeTitle
+    //             };
 
-                if (locationAlreadyExists(location)) {
-                    this.alert("This location already exists on the map!")
-                    return;
-                }
 
-                //draw it on the map
-                location.marker = drawMarker(location);
-                focusMapOnLocation(location.coordinates);
-                //add info window
-                attackInfoWindow(location);
-                //add to locations array
-                locationsArr.push(location);
 
-                let locationsContainer = this.document.getElementById('location-container');
-                locationsContainer.appendChild(createLocationCard(location))
+    //             if (locationAlreadyExists(location)) {
+    //                 this.alert("This location already exists on the map!")
+    //                 return;
+    //             }
 
-                checkForNoLocations();
-            })
-    })
+    //             //draw it on the map
+    //             location.marker = drawMarker(location);
+    //             focusMapOnLocation(location.coordinates);
+    //             //add info window
+    //             attackInfoWindow(location);
+    //             //add to locations array
+    //             locationsArr.push(location);
+
+    //             let locationsContainer = this.document.getElementById('location-container');
+    //             locationsContainer.appendChild(createLocationCard(location))
+
+    //             checkForNoLocations();
+    //         })
+    // })
 
     function createLocationCard(location) {
         let divLocation = createElement('div', 'location');

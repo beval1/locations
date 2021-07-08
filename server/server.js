@@ -206,7 +206,7 @@ app.get("/get-addresses", async (req, res) => {
     console.log(countries)
     console.log(cities)
 
-    let sqlQuery = "SELECT DISTINCT street_address AS street FROM locations WHERE country IN(:countries) AND city IN(:cities) ORDER BY street ASC"
+    let sqlQuery = "SELECT * FROM locations WHERE country IN(:countries) AND city IN(:cities) ORDER BY street_address ASC"
     const results = await sequelize.query(sqlQuery, {
         raw: true,
         type: sequelize.QueryTypes.SELECT,

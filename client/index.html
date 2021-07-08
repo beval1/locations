@@ -10,12 +10,13 @@
     <link rel="stylesheet" type="text/css" href="./style.css" />
     <script src="./client.js"></script>
     <script src="./areas.js"></script>
-    <script src="./locations.js"></script>
+    <!-- <script src="./locations2.js"></script> -->
     <script src="./filter.js"></script>
     <script src="./utils.js"></script>
         <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+        <!-- &callback=initMap -->
         <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmZTHw7SHyNftDR9pYm10BzfadinEoPmA&callback=initMap&libraries=&v=weekly"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmZTHw7SHyNftDR9pYm10BzfadinEoPmA&libraries=&v=weekly"
         async>
     </script>
     <!-- <link rel="stylesheet" href="select-box/vanillaSelectBox.css">
@@ -44,14 +45,14 @@
             <!-- <label for="search">Search locations</label><br> -->
             <h1>Search Locations</h1>
             <!-- <input type="text" placeholder="Type location name" name="search" id="search-field"><br> -->
-            <div id="autocomplete" class="autocomplete">
+            <!-- <div id="autocomplete" class="autocomplete">
                 <input class="autocomplete-input"
                   placeholder="Search for location's street address"
                   aria-label="Search for location's street address"
                   id="search-bar"
                 >
                 <ul class="autocomplete-results"></ul>
-            </div>
+            </div> -->
             <label for="country">Choose country</label><br>
             <select id="country" multiple>
                 <option value="All">All</option>
@@ -61,11 +62,20 @@
                 <option value="All">All</option>
             </select><br>
             <div id="filter-btns">
-                <input type="button" value="Filter" id="filter-btn">
+                <!-- <input type="button" value="Filter" id="filter-btn"> -->
                 <input id="area-modal-btn" type="button" value="Add Area">
-                <input type="submit" value="Add Marker" id="add-marker-btn">
+                <input type="submit" value="Add Markers" id="add-marker-btn">
             </div>
         </form>
+        
+        <hr>
+        <div id="areas">
+            <h3>Areas of Interest</h3>
+            <!-- <button id="area-modal-btn">Add Area of Interest</button> -->
+            <div id="area-container">
+                <p id="no-areas">No areas on the map!</p>
+            </div>
+        </div>
 
         <hr>
 
@@ -119,16 +129,6 @@
                     <button>Hide</button>
                     <button>Delete</button>
                 </div> -->
-            </div>
-        </div>
-
-        <hr>
-
-        <div id="areas">
-            <h3>Areas of Interest</h3>
-            <!-- <button id="area-modal-btn">Add Area of Interest</button> -->
-            <div id="area-container">
-                <p id="no-areas">No areas on the map!</p>
             </div>
         </div>
         

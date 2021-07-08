@@ -8,6 +8,10 @@ const mapStartingPosition = {
 }
 const mapZoomLevel = 5;
 
+window.addEventListener('load', () => {
+    initMap()
+})
+
 function initMap() {
     console.log("initializing map...")
 
