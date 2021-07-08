@@ -69,7 +69,7 @@ window.addEventListener("load", function () {
         checkForNoAreas();
         closeModal();
 
-        loadSearchBox();
+        //loadSearchBox();
     })
 
     function createAreaCard(area){

@@ -59,34 +59,44 @@ window.addEventListener("load", function () {
                         streetAddress: location.street_address,
                         name: location.placeName
                     };
+                    location.marker = drawMarker(location);
+                    //focusMapOnLocation(location.coordinates);
+                    //add info window
+                    attackInfoWindow(location);
+                    //add to locations array
+                    locationsArr.push(location);
 
-                    if (inAreas(location)) {
+                    if (!inAreas(location)) {
                         //draw it on the map
-                        location.marker = drawMarker(location);
-                        focusMapOnLocation(location.coordinates);
-                        //add info window
-                        attackInfoWindow(location);
-                        //add to locations array
-                        locationsArr.push(location);
+                        location.marker.setMap(null)
                     }
                 }
                 console.log(locationsArr)
             })
     })
 
-    function inAreas(address) {
+    function inAreas(location) {
         if (areasArr.length < 1) {
             return true;
         }
         for (let index = 0; index < areasArr.length; index++) {
-            const rectangle = array[index];
-            let x = address.latitude;
-            let y = address.longitude;
+            const rectangle = areasArr[index];
+            console.log(location);
+            console.log(rectangle);
+            // let x = location.coordinates.lat;
+            // let y = location.coordinates.lng;
             //let height = rectangle.coordinates.sw.Y + rectangle.coordinates.nw.Y;
             //let width = rectangle.coordinates.sw.X + rectangle.coordinates.se.X;
-            if (rectangle.coordinates.sw.X >= x && rectangle.coordinates.sw.Y >= y && rectangle.coordinates.ne.X <= x && rectangle.coordinates.ne.Y <= y) {
+            // if (rectangle.coordinates.sw.X >= x && rectangle.coordinates.sw.Y >= y && rectangle.coordinates.ne.X <= x && rectangle.coordinates.ne.Y <= y) {
+            //     return true;
+            // }
+            //insideRectangle = rectangle.area.getBounds().contains(location.marker.getPosition());
+            insideRectangle = google.maps.geometry.poly.containsLocation(location.marker.getPosition(), rectangle.area);
+            if (insideRectangle) {
+                console.log(insideRectangle)
                 return true;
             }
+
         }
         return false;
     }
