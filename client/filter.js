@@ -6,18 +6,20 @@ window.addEventListener("load", function () {
     let countriesChoosen = [];
     let citiesChoosen = [];
 
+
+    var mySelect = new MSFmultiSelect(
+        document.querySelector('#country'),
+        {
+            onChange: countriesChanged()
+        }
+    );
     //load filters
     loadFilterCountries();
     loadFilterCities();
     // loadSearchBox();
 
     countriesSelector.addEventListener('change', () => {
-        countriesChoosen = getMultipleSelectValues(countriesSelector);
-        toggleSelectors();
-        loadFilterCities();
-        // loadSearchBox();
-        toggleSelectors();
-        console.log('changed')
+        countriesChanged();
     })
 
     citiesSelector.addEventListener('change', () => {
@@ -28,6 +30,15 @@ window.addEventListener("load", function () {
         toggleSelectors();
         console.log('changed')
     })
+
+    function countriesChanged(){
+            countriesChoosen = getMultipleSelectValues(countriesSelector);
+            toggleSelectors();
+            loadFilterCities();
+            // loadSearchBox();
+            toggleSelectors();
+            console.log('changed')
+    }
 
     function toggleSelectors() {
         countriesSelector.disabled ? countriesSelector.disabled = false : countriesSelector.disabled = true;
@@ -69,7 +80,7 @@ window.addEventListener("load", function () {
                     if (!inAreas(location)) {
                         //draw it on the map
                         location.marker.setMap(null)
-                    }
+                    } 
                 }
                 console.log(locationsArr)
             })

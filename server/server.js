@@ -47,7 +47,8 @@ const Location = sequelize.define('Location', {
     street_address: {
         type: DataTypes.STRING,
         allowNull: true,
-        defaultValue: "UNKNOWN"
+        defaultValue: "UNKNOWN",
+        unique: true, 
     },
     latitude: {
         type: DataTypes.DECIMAL(10, 8),

@@ -19,6 +19,7 @@ function initMap() {
         center: mapStartingPosition,
         zoom: mapZoomLevel,
     });
+
 }
 
 function drawMarker(location) {
